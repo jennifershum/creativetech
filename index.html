@@ -19,10 +19,8 @@
             overflow-x: hidden;
         }
 
-        /* Particles Canvas */
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: 5; pointer-events: none; }
 
-        /* Navigation */
         nav {
             position: fixed; top: 0; width: 100%; padding: 20px; z-index: 100;
             display: flex; justify-content: center; gap: clamp(10px, 4vw, 30px);
@@ -34,22 +32,19 @@
             color: white; text-decoration: none; font-size: 0.75rem; font-weight: bold;
             letter-spacing: 1.5px; text-transform: uppercase; transition: 0.3s; opacity: 0.6;
         }
-
         nav a:hover { opacity: 1; color: var(--art-gold); }
 
-        /* Background Layers with Swipe */
         .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background-size: cover; background-position: center;
             transition: clip-path var(--transition-speed) cubic-bezier(0.77, 0, 0.175, 1);
         }
 
-        #bg-engineering { background-image: url('blueprint.png'); z-index: 1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
-        #bg-creative { background-image: url('cafe.png'); z-index: 2; clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
+        #bg-engineering { background-image: url('blueprint.png'); z-index: 1; clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
+        #bg-creative { background-image: url('cafe.png'); z-index: 2; clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
         
-        body.creative-mode #bg-creative { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+        body.engineering-mode #bg-engineering { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
 
-        /* Content UI */
         .content-container {
             position: relative; z-index: 10; min-height: 100vh;
             display: flex; flex-direction: column; align-items: center; padding: 120px 20px; box-sizing: border-box;
@@ -64,29 +59,35 @@
             border: 1px solid rgba(255,255,255,0.15);
             text-align: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 { font-size: clamp(1.8rem, 5vw, 3.2rem); margin: 0; letter-spacing: -1px; }
-        h2 { font-size: 1rem; margin: 10px 0 0; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; opacity: 0.8; }
+        h2 { font-size: 0.9rem; margin: 10px 0 20px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; opacity: 0.8; }
+
+        .toggle-btn {
+            padding: 12px 30px; font-size: 0.8rem; font-weight: 900;
+            cursor: pointer; border: 2px solid white; background: rgba(255,255,255,0.1);
+            color: white; border-radius: 50px; display: flex; align-items: center; gap: 12px; 
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .toggle-btn:hover { background: white; color: black; transform: scale(1.05); }
+        .toggle-btn svg { width: 16px; height: 16px; transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        .toggle-btn:hover svg { transform: rotate(180deg); stroke: black; }
 
         #project-list { display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; max-width: 1400px; }
 
-        /* Card Styling */
         .info-card {
             background: rgba(255, 255, 255, 0.98); color: #111;
             border-radius: 16px; width: 310px; overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
         .info-card:hover { transform: translateY(-12px); }
 
-        /* Skeleton Shimmer */
         .card-img { width: 100%; height: 170px; background-size: cover; background-position: center; }
-        .card-img.loading {
-            background: #eee;
-            position: relative;
-            overflow: hidden;
-        }
+        .card-img.loading { background: #eee; position: relative; overflow: hidden; }
         .card-img.loading::after {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
@@ -98,22 +99,10 @@
         .info-card h3 { margin: 0 0 10px 0; font-size: 1.1rem; font-weight: 800; }
         .info-card p { font-size: 0.85rem; line-height: 1.5; color: #444; margin: 0; }
 
-        /* Toggle Button */
-        .toggle-btn {
-            margin-top: 60px; padding: 18px 45px; font-size: 0.9rem; font-weight: 900;
-            cursor: pointer; border: 2px solid white; background: rgba(0,0,0,0.7);
-            color: white; border-radius: 60px; display: flex; align-items: center; gap: 15px; 
-            transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;
-        }
-
-        .toggle-btn:hover { background: white; color: black; transform: scale(1.05); }
-        .toggle-btn svg { width: 20px; height: 20px; transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-        .toggle-btn:hover svg { transform: rotate(180deg); stroke: black; }
-
-        footer { position: fixed; bottom: 15px; width: 100%; text-align: center; z-index: 100; font-size: 0.7rem; opacity: 0.4; }
+        footer { position: fixed; bottom: 15px; width: 100%; text-align: center; z-index: 100; font-size: 0.7rem; opacity: 0.4; pointer-events: none;}
     </style>
 </head>
-<body class="engineering-mode">
+<body class="creative-mode">
 
     <canvas id="particle-canvas"></canvas>
 
@@ -129,37 +118,23 @@
 
     <div class="content-container">
         <div class="header-shield">
-            <h1 id="main-title">Jennifer Shum | PhD</h1>
-            <h2 id="sub-title">Mechanical Design & Robotics R&D</h2>
+            <h1 id="main-title">Jas | Creative Designer</h1>
+            <h2 id="sub-title">Digital Art & Experiential Design</h2>
+            <button class="toggle-btn" onclick="toggleMode()">
+                Switch Persona
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 3h5v5M4 21L21 4M4 21h5v-5"/>
+                </svg>
+            </button>
         </div>
         
         <div id="project-list"></div>
-
-        <button class="toggle-btn" onclick="toggleMode()">
-            Switch Persona
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 3h5v5M4 21L21 4M4 21h5v-5"/>
-            </svg>
-        </button>
     </div>
 
     <footer>Jennifer.Angela.Shum@gmail.com | © 2026</footer>
 
     <script>
         const modes = {
-            engineering: {
-                title: "Jennifer Shum | PhD",
-                subtitle: "Mechanical Design & Robotics R&D",
-                accent: "var(--eng-blue)",
-                pColor: "rgba(100, 160, 255, 0.4)",
-                projects: [
-                    { name: "Harvard Microrobotics", img: "Microrobot.jpg", desc: "Electroadhesive footpads & novel mechanisms for small-scale robots (PhD)." },
-                    { name: "JPL & NASA", img: "JPL.jpg", desc: "Mechanical fixtures for Perseverance rover testbed & UI/UX studies." },
-                    { name: "Avatar Arena", img: "AvatarArena.jpg", desc: "$1k Hackathon Win (Kiro x Reddit); 125+ playtesters in 24 hrs." },
-                    { name: "Ramen Clicker", img: "RamenClickerShopGame.jpg", desc: "Digital collectible shop game developed in Unity 2D." },
-                    { name: "Adopt-a-Blob", img: "adoptablob.png", desc: "Mobile game on Android with 30,000+ global installs." }
-                ]
-            },
             creative: {
                 title: "Jas | Creative Designer",
                 subtitle: "Digital Art & Experiential Design",
@@ -168,14 +143,29 @@
                 projects: [
                     { name: "Reddit Collectibles", img: "RedditAvatars.gif", desc: "Launched original avatar series; 2,400+ collectors; $75k+ revenue." },
                     { name: "Chubby Cattle", img: "ChubbyGif.gif", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurants." },
-                    { name: "Freelance Solutions", img: "DesignFreelance.jpg", desc: "Visual branding and self-published children's books." },
-                    { name: "Fanart & Illustration", img: "ELSA_JAS_ART.jpg", desc: "High-fidelity digital illustration on major entertainment IPs." },
-                    { name: "Times Square Feature", img: "TimesSquareBillboard.jpg", desc: "Digital art featured on NYC Times Square billboard (2025)." }
+                    { name: "Freelance Solutions", img: "DesignFreelance.png", desc: "Visual branding and self-published children's books." },
+                    { name: "Whimsical Storytelling", img: "KIKO_ART.png", desc: "Digital illustrations designed to tell immersive, playful stories." },
+                    { name: "Fanart & Illustration", img: "ELSA_JAS_ART.png", desc: "High-fidelity digital illustration on major entertainment IPs." },
+                    { name: "Times Square Feature", img: "TimesSquareBillboard.png", desc: "Digital art featured on NYC Times Square billboard (2025)." }
+                ]
+            },
+            engineering: {
+                title: "Jennifer Shum | PhD",
+                subtitle: "Mechanical Design & Robotics R&D",
+                accent: "var(--eng-blue)",
+                pColor: "rgba(100, 160, 255, 0.4)",
+                projects: [
+                    { name: "Harvard Microrobotics", img: "Robot_Surfaces.png", desc: "Electroadhesive footpads & novel mechanisms for small-scale robots (PhD)." },
+                    { name: "NASA JPL and iRobot", img: "JPL.png", desc: "Mechanical fixtures for Perseverance rover testbed & consumer robotics R&D." },
+                    { name: "3D Printing R&D", img: "Microrobot.png", desc: "FDM/SLA metallized sputter coated terrains and advanced fabrication." },
+                    { name: "Avatar Arena", img: "AvatarArena.png", desc: "$1k Hackathon Win (Kiro x Reddit); 125+ playtesters in 24 hrs." },
+                    { name: "Ramen Clicker", img: "RamenClickerShopGame.jpg", desc: "Digital collectible shop game developed in Unity 2D." },
+                    { name: "Adopt-a-Blob", img: "adoptablob.png", desc: "Mobile game on Android with 30,000+ global installs." }
                 ]
             }
         };
 
-        let currentMode = 'engineering';
+        let currentMode = 'creative';
 
         function render() {
             const data = modes[currentMode];
@@ -193,7 +183,6 @@
                 </div>
             `).join('');
 
-            // Lazy load images with shimmer removal
             data.projects.forEach((p, i) => {
                 const imgDiv = document.getElementById(`img-${currentMode}-${i}`);
                 const tempImg = new Image();
@@ -206,18 +195,15 @@
         }
 
         function toggleMode() {
-            currentMode = (currentMode === 'engineering') ? 'creative' : 'engineering';
+            currentMode = (currentMode === 'creative') ? 'engineering' : 'creative';
             document.body.className = currentMode + "-mode";
-            setTimeout(render, 400); // Wait for background swipe to start
+            setTimeout(render, 400);
         }
 
-        // Particle System Logic
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        
         class Particle {
             constructor() { this.init(); }
             init() {
@@ -237,14 +223,12 @@
                 ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
-
         function initP() { for (let i = 0; i < 90; i++) particles.push(new Particle()); }
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
         }
-
         window.addEventListener('resize', resize);
         resize(); initP(); animate(); window.onload = render;
     </script>
