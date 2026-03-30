@@ -89,7 +89,13 @@
         }
         .info-card:hover { transform: translateY(-12px); }
 
-        .card-img { width: 100%; height: 175px; background-size: cover; background-position: center; }
+        .card-img { 
+            width: 100%; height: 175px; 
+            background-size: cover; 
+            background-position: center;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; font-weight: bold; font-size: 0.8rem;
+        }
         .card-img.loading { background: #ddd; position: relative; overflow: hidden; }
         .card-img.loading::after {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -140,5 +146,7 @@
         <div id="project-list"></div>
 
         <div class="ai-credit">
-           Background Visuals crafted with <b>Nano Banana 2</b> • Architecture by <b>Gemini 3 Flash</b>
+            BG Visuals crafted with <b>Nano Banana 2</b> • Architecture by <b>Gemini 3 Flash</b>
         </div>
+        
+        <footer>Jennifer.Angela.Shum@gmail.com
