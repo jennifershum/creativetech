@@ -53,7 +53,7 @@
         }
 
         .header-shield {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(15px);
             padding: 30px 50px;
             border-radius: 24px;
@@ -75,16 +75,16 @@
         }
         .toggle-btn:hover { background: white; color: black; transform: scale(1.05); }
 
-        /* Attn-grabbing Icon Animation */
+        /* Icon Animation Logic */
         .toggle-btn svg { 
-            width: 18px; height: 18px; 
-            animation: pulse-flip 6s infinite ease-in-out; 
+            width: 20px; height: 20px; 
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: idle-pulse 4s infinite ease-in-out; 
         }
-        @keyframes pulse-flip {
-            0%, 80% { transform: scale(1) rotate(0deg); }
-            85% { transform: scale(1.3) rotate(180deg); }
-            90% { transform: scale(1) rotate(360deg); }
-            100% { transform: scale(1) rotate(360deg); }
+
+        @keyframes idle-pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.15); }
         }
 
         #project-list { display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; max-width: 1400px; }
@@ -136,9 +136,9 @@
         <div class="header-shield">
             <h1 id="main-title">Jas | Creative Designer</h1>
             <h2 id="sub-title">Digital Art & Experiential Design</h2>
-            <button class="toggle-btn" id="persona-btn" onclick="toggleMode()">
+            <button class="toggle-btn" onclick="toggleMode()">
                 <span id="btn-text">Switch to Technical</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <svg id="switch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 3h5v5M4 21L21 4M4 21h5v-5"/>
                 </svg>
             </button>
@@ -147,7 +147,7 @@
         <div id="project-list"></div>
 
         <div class="ai-credit">
-            Visuals crafted with <b>Nano Banana 2</b> • Architecture by <b>Gemini 3 Flash</b>
+            BG Image Visuals crafted with <b>Nano Banana 2</b> • Architecture by <b>Gemini 3 Flash</b>
         </div>
         
         <footer>Jennifer.Angela.Shum@gmail.com | © 2026</footer>
@@ -188,6 +188,7 @@
         };
 
         let currentMode = 'creative';
+        let rotation = 0;
 
         function render() {
             const data = modes[currentMode];
@@ -220,6 +221,11 @@
         function toggleMode() {
             currentMode = (currentMode === 'creative') ? 'engineering' : 'creative';
             document.body.className = currentMode + "-mode";
+            
+            // Icon Rotation Logic
+            rotation += 180;
+            document.getElementById('switch-icon').style.transform = `rotate(${rotation}deg)`;
+            
             setTimeout(render, 300);
         }
 
