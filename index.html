@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jennifer Shum | Blueprints & Brushstrokes</title>
     <style>
-        /* CSS STYLES */
         :root {
             --eng-blue: #0047AB;
             --art-matcha: #778664;
-            --transition-speed: 1.2s;
+            --transition-speed: 1s;
         }
 
         body, html {
             margin: 0; padding: 0;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--eng-blue);
+            color: white;
             overflow-x: hidden;
-            background-color: #f0f0f0;
         }
 
         /* Background Layers */
@@ -26,17 +26,19 @@
             width: 100%; height: 100vh;
             background-size: cover;
             background-position: center;
-            transition: opacity var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity var(--transition-speed) ease-in-out;
         }
 
-        /* Use your actual filenames here */
+        /* These names must match your uploaded files exactly */
         #bg-engineering {
             background-image: url('blueprint.png');
+            background-color: var(--eng-blue); 
             z-index: 1;
         }
 
         #bg-creative {
             background-image: url('cafe.png');
+            background-color: var(--art-matcha);
             opacity: 0;
             z-index: 2;
         }
@@ -51,74 +53,131 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: rgba(0, 0, 0, 0.15);
-            transition: background var(--transition-speed);
-            padding: 20px;
+            background: rgba(0, 0, 0, 0.4); /* Dark overlay for text readability */
+            padding: 40px 20px;
+            box-sizing: border-box;
         }
 
-        h1 { font-size: 3rem; margin-bottom: 0.5rem; color: white; text-shadow: 2px 2px 15px rgba(0,0,0,0.5); }
-        h2 { font-size: 1.5rem; margin-bottom: 2rem; color: rgba(255,255,255,0.9); font-weight: 300; }
+        h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin: 0; text-shadow: 2px 2px 15px rgba(0,0,0,0.6); }
+        h2 { font-size: 1.3rem; margin: 10px 0 40px; font-weight: 300; opacity: 0.9; }
 
-        /* Project Cards */
         #project-list {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 1000px;
+            max-width: 1100px;
         }
 
         .info-card {
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
+            background: rgba(255, 255, 255, 0.98);
+            color: #222;
             padding: 25px;
-            border-radius: 12px;
-            width: 280px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
+            border-radius: 15px;
+            width: 300px;
             text-align: left;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
         }
 
-        .info-card:hover { transform: translateY(-5px); }
-        .info-card h3 { margin-top: 0; font-size: 1.2rem; }
-        .info-card p { font-size: 0.9rem; line-height: 1.4; color: #555; }
+        .info-card:hover { transform: translateY(-8px); }
+        .info-card h3 { margin-top: 0; font-size: 1.25rem; color: #111; }
+        .info-card p { font-size: 0.95rem; line-height: 1.5; color: #444; margin-bottom: 0; }
 
-        /* Toggle Button */
         .toggle-btn {
-            margin-top: 40px;
-            padding: 18px 40px;
+            margin-top: 50px;
+            padding: 18px 45px;
             font-size: 1.1rem;
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             cursor: pointer;
             border: 3px solid white;
             background: transparent;
             color: white;
-            border-radius: 50px;
-            transition: all 0.3s ease;
+            border-radius: 60px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .toggle-btn:hover {
-            background: white;
-            color: #333;
-            box-shadow: 0 0 20px rgba(255,255,255,0.4);
-        }
+        .toggle-btn:hover { background: white; color: black; box-shadow: 0 0 25px rgba(255,255,255,0.4); }
 
         /* State Classes */
         body.creative-mode #bg-creative { opacity: 1; }
-        body.creative-mode .content-container { background: rgba(0,0,0,0.05); }
-
+        
         footer {
             position: fixed;
             bottom: 20px;
-            color: white;
+            width: 100%;
+            text-align: center;
             z-index: 100;
-            font-size: 0.8rem;
-            opacity: 0.7;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            pointer-events: none;
         }
     </style>
 </head>
 <body class="engineering-mode">
 
-    <div id="bg-
+    <div id="bg-engineering" class="bg-layer"></div>
+    <div id="bg-creative" class="bg-layer"></div>
+
+    <div class="content-container">
+        <h1 id="main-title">Jennifer Shum | PhD</h1>
+        <h2 id="sub-title">Mechanical Design & Robotics R&D</h2>
+        <div id="project-list"></div>
+        <button class="toggle-btn" onclick="toggleMode()">Switch Persona</button>
+    </div>
+
+    <footer>
+        Jennifer.Angela.Shum@gmail.com | www.jascolors.com
+    </footer>
+
+    <script>
+        const modes = {
+            engineering: {
+                title: "Jennifer Shum | PhD",
+                subtitle: "Mechanical Design & Robotics R&D",
+                projects: [
+                    { name: "Harvard Microrobotics", desc: "Developing electroadhesive footpads and novel mechanisms for small-scale robots (PhD research)." },
+                    { name: "NASA JPL & iRobot", desc: "Mechanical fixtures for Perseverance rover and next-gen consumer robotics UI/UX studies." },
+                    { name: "Avatar Arena & Apps", desc: "Award-winning interactive demo and Android games with 30,000+ downloads." }
+                ],
+                accent: "#0047AB"
+            },
+            creative: {
+                title: "Jas | Creative Designer",
+                subtitle: "Digital Art & Experiential Design",
+                projects: [
+                    { name: "Reddit Collectibles", desc: "Launched original avatar series for 2,400+ collectors with $75k+ in sales revenue." },
+                    { name: "Chubby Cattle & Web3", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurant locations." },
+                    { name: "Freelance & Branding", desc: "Visual solutions for NASA JPL interns and self-published children's books." }
+                ],
+                accent: "#778664"
+            }
+        };
+
+        let currentMode = 'engineering';
+
+        function render() {
+            const data = modes[currentMode];
+            document.getElementById('main-title').innerText = data.title;
+            document.getElementById('sub-title').innerText = data.subtitle;
+            document.getElementById('project-list').innerHTML = data.projects.map(p => `
+                <div class="info-card" style="border-top: 8px solid ${data.accent}">
+                    <h3>${p.name}</h3>
+                    <p>${p.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function toggleMode() {
+            currentMode = (currentMode === 'engineering') ? 'creative' : 'engineering';
+            document.body.className = currentMode + "-mode";
+            // Swapping text mid-transition for a smooth feel
+            setTimeout(render, 300); 
+        }
+
+        window.onload = render;
+    </script>
+</body>
+</html>
