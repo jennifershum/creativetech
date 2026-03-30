@@ -34,7 +34,6 @@
         }
         nav a:hover { opacity: 1; color: var(--art-gold); }
 
-        /* Robust Background Layers */
         .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background-size: cover; background-position: center;
@@ -75,16 +74,10 @@
         }
         .toggle-btn:hover { background: white; color: black; transform: scale(1.05); }
 
-        /* Icon Animation Logic */
-        .toggle-btn svg { 
+        #switch-icon { 
             width: 20px; height: 20px; 
             transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            animation: idle-pulse 4s infinite ease-in-out; 
-        }
-
-        @keyframes idle-pulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.15); }
+            display: block;
         }
 
         #project-list { display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; max-width: 1400px; }
@@ -147,7 +140,7 @@
         <div id="project-list"></div>
 
         <div class="ai-credit">
-            BG Image Visuals crafted with <b>Nano Banana 2</b> • Architecture by <b>Gemini 3 Flash</b>
+            Background Visuals crafted with <b>Nano Banana 2</b> • Architecture by <b>Gemini 3 Flash</b>
         </div>
         
         <footer>Jennifer.Angela.Shum@gmail.com | © 2026</footer>
@@ -163,8 +156,8 @@
                 pColor: "rgba(255, 215, 0, 0.5)",
                 projects: [
                     { name: "Reddit Collectibles", img: "RedditAvatars.gif", desc: "Launched original avatar series; 2,400+ collectors; $75k+ revenue." },
-                    { name: "Chubby Cattle", img: "ChubbyGif.gif", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurants (Lunar New Year special art editions for 2024 and 2025)." },
                     { name: "Freelance Solutions", img: "DesignFreelance.png", desc: "Visual branding and self-published children's books for various clients." },
+                    { name: "Chubby Cattle", img: "ChubbyGif.gif", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurants (Lunar New Year special art editions for 2024 and 2025)." },
                     { name: "Whimsical Storytelling", img: "KIKO_ART.png", desc: "Digital illustrations designed to tell immersive, playful stories." },
                     { name: "Fanart Illustration", img: "ELSA_JAS_ART.png", desc: "Procreate digital illustration shared with fans across social media - just for fun!" },
                     { name: "Times Square Feature", img: "TimesSquareBillboard.png", desc: "Digital art featured on NYC Times Square billboard (2025)." }
@@ -196,71 +189,4 @@
             document.getElementById('sub-title').innerText = data.subtitle;
             document.getElementById('btn-text').innerText = data.btn;
             
-            const container = document.getElementById('project-list');
-            container.innerHTML = data.projects.map((p, i) => `
-                <div class="info-card" style="border-top: 8px solid ${data.accent}">
-                    <div id="img-${currentMode}-${i}" class="card-img loading"></div>
-                    <div class="card-text">
-                        <h3>${p.name}</h3>
-                        <p>${p.desc}</p>
-                    </div>
-                </div>
-            `).join('');
-
-            data.projects.forEach((p, i) => {
-                const imgDiv = document.getElementById(`img-${currentMode}-${i}`);
-                const tempImg = new Image();
-                tempImg.src = p.img;
-                tempImg.onload = () => {
-                    imgDiv.style.backgroundImage = `url('${p.img}')`;
-                    imgDiv.classList.remove('loading');
-                };
-            });
-        }
-
-        function toggleMode() {
-            currentMode = (currentMode === 'creative') ? 'engineering' : 'creative';
-            document.body.className = currentMode + "-mode";
-            
-            // Icon Rotation Logic
-            rotation += 180;
-            document.getElementById('switch-icon').style.transform = `rotate(${rotation}deg)`;
-            
-            setTimeout(render, 300);
-        }
-
-        // Particle System
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        class Particle {
-            constructor() { this.init(); }
-            init() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 0.6 - 0.3;
-                this.speedY = Math.random() * 0.6 - 0.3;
-            }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x > canvas.width || this.x < 0) this.x = Math.random() * canvas.width;
-                if (this.y > canvas.height || this.y < 0) this.y = Math.random() * canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = modes[currentMode].pColor;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
-        }
-        function initP() { for (let i = 0; i < 90; i++) particles.push(new Particle()); }
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-        window.addEventListener('resize', resize);
-        resize(); initP(); animate(); window.onload = render;
-    </script>
-</body>
-</html>
+            const container = document.getElementById('project
