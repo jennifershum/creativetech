@@ -140,53 +140,5 @@
         <div id="project-list"></div>
 
         <div class="ai-credit">
-            Background Visuals crafted with <b>Nano Banana 2</b> • Architecture by <b>Gemini 3 Flash</b>
+           Background Visuals crafted with <b>Nano Banana 2</b> • Architecture by <b>Gemini 3 Flash</b>
         </div>
-        
-        <footer>Jennifer.Angela.Shum@gmail.com | © 2026</footer>
-    </div>
-
-    <script>
-        const modes = {
-            creative: {
-                title: "Jas | Creative Designer",
-                subtitle: "Digital Art & Experiential Design",
-                btn: "Switch to Technical",
-                accent: "var(--art-gold)",
-                pColor: "rgba(255, 215, 0, 0.5)",
-                projects: [
-                    { name: "Reddit Collectibles", img: "RedditAvatars.gif", desc: "Launched original avatar series; 2,400+ collectors; $75k+ revenue." },
-                    { name: "Freelance Solutions", img: "DesignFreelance.png", desc: "Visual branding and self-published children's books for various clients." },
-                    { name: "Chubby Cattle", img: "ChubbyGif.gif", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurants (Lunar New Year special art editions for 2024 and 2025)." },
-                    { name: "Whimsical Storytelling", img: "KIKO_ART.png", desc: "Digital illustrations designed to tell immersive, playful stories." },
-                    { name: "Fanart Illustration", img: "ELSA_JAS_ART.png", desc: "Procreate digital illustration shared with fans across social media - just for fun!" },
-                    { name: "Times Square Feature", img: "TimesSquareBillboard.png", desc: "Digital art featured on NYC Times Square billboard (2025)." }
-                ]
-            },
-            engineering: {
-                title: "Jennifer Shum | PhD",
-                subtitle: "Mechanical Design & Robotics R&D",
-                btn: "Switch to Creative",
-                accent: "var(--eng-blue)",
-                pColor: "rgba(100, 160, 255, 0.4)",
-                projects: [
-                    { name: "Harvard Microrobotics", img: "Robot_Surfaces.png", desc: "Electroadhesive footpads & novel mechanisms for small-scale robots (PhD research)." },
-                    { name: "NASA JPL and iRobot", img: "JPL.png", desc: "Mechanical fixtures for Perseverance rover testbed & consumer robotics R&D." },
-                    { name: "3D Printing R&D", img: "Microrobot.png", desc: "FDM/SLA metallized sputter coated terrains and advanced fabrication." },
-                    { name: "Avatar Arena", img: "AvatarArena.png", desc: "$1k Hackathon Win (Kiro x Reddit); 125+ playtesters in 24 hrs." },
-                    { name: "Ramen Clicker", img: "RamenClickerShopGame.jpg", desc: "Digital collectible shop game developed in Unity 2D." },
-                    { name: "Adopt-a-Blob", img: "adoptablob.png", desc: "Mobile game on Android with 30,000+ global installs." }
-                ]
-            }
-        };
-
-        let currentMode = 'creative';
-        let rotation = 0;
-
-        function render() {
-            const data = modes[currentMode];
-            document.getElementById('main-title').innerText = data.title;
-            document.getElementById('sub-title').innerText = data.subtitle;
-            document.getElementById('btn-text').innerText = data.btn;
-            
-            const container = document.getElementById('project
