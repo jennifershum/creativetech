@@ -8,7 +8,7 @@
         :root {
             --eng-blue: #0047AB;
             --art-gold: #D4AF37;
-            --transition-speed: 1.2s;
+            --transition-speed: 0.8s;
         }
 
         body, html {
@@ -24,58 +24,68 @@
         nav {
             position: fixed; top: 0; width: 100%; padding: 20px; z-index: 100;
             display: flex; justify-content: center; gap: clamp(10px, 4vw, 30px);
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         nav a {
             color: white; text-decoration: none; font-size: 0.75rem; font-weight: bold;
-            letter-spacing: 1.5px; text-transform: uppercase; transition: 0.3s; opacity: 0.6;
+            letter-spacing: 1.5px; text-transform: uppercase; transition: 0.3s; opacity: 0.7;
         }
         nav a:hover { opacity: 1; color: var(--art-gold); }
 
+        /* Robust Background Layers */
         .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background-size: cover; background-position: center;
-            transition: clip-path var(--transition-speed) cubic-bezier(0.77, 0, 0.175, 1);
+            transition: opacity var(--transition-speed) ease-in-out;
         }
 
-        #bg-engineering { background-image: url('blueprint.png'); z-index: 1; clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
-        #bg-creative { background-image: url('cafe.png'); z-index: 2; clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+        #bg-engineering { background-image: url('blueprint.png'); z-index: 1; opacity: 0; }
+        #bg-creative { background-image: url('cafe.png'); z-index: 2; opacity: 1; }
         
-        body.engineering-mode #bg-engineering { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+        body.engineering-mode #bg-engineering { opacity: 1; z-index: 3; }
+        body.engineering-mode #bg-creative { opacity: 0; }
 
         .content-container {
             position: relative; z-index: 10; min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center; padding: 120px 20px; box-sizing: border-box;
+            display: flex; flex-direction: column; align-items: center; padding: 140px 20px 80px; box-sizing: border-box;
         }
 
         .header-shield {
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
             padding: 30px 50px;
             border-radius: 24px;
             margin-bottom: 50px;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
         }
 
         h1 { font-size: clamp(1.8rem, 5vw, 3.2rem); margin: 0; letter-spacing: -1px; }
-        h2 { font-size: 0.9rem; margin: 10px 0 20px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; opacity: 0.8; }
+        h2 { font-size: 0.9rem; margin: 10px 0 25px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; opacity: 0.9; }
 
         .toggle-btn {
-            padding: 12px 30px; font-size: 0.8rem; font-weight: 900;
+            padding: 14px 32px; font-size: 0.85rem; font-weight: 900;
             cursor: pointer; border: 2px solid white; background: rgba(255,255,255,0.1);
             color: white; border-radius: 50px; display: flex; align-items: center; gap: 12px; 
-            transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;
+            transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1.5px;
         }
         .toggle-btn:hover { background: white; color: black; transform: scale(1.05); }
-        .toggle-btn svg { width: 16px; height: 16px; transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-        .toggle-btn:hover svg { transform: rotate(180deg); stroke: black; }
+
+        /* Attn-grabbing Icon Animation */
+        .toggle-btn svg { 
+            width: 18px; height: 18px; 
+            animation: pulse-flip 6s infinite ease-in-out; 
+        }
+        @keyframes pulse-flip {
+            0%, 80% { transform: scale(1) rotate(0deg); }
+            85% { transform: scale(1.3) rotate(180deg); }
+            90% { transform: scale(1) rotate(360deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
 
         #project-list { display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; max-width: 1400px; }
 
@@ -86,8 +96,8 @@
         }
         .info-card:hover { transform: translateY(-12px); }
 
-        .card-img { width: 100%; height: 170px; background-size: cover; background-position: center; }
-        .card-img.loading { background: #eee; position: relative; overflow: hidden; }
+        .card-img { width: 100%; height: 175px; background-size: cover; background-position: center; }
+        .card-img.loading { background: #ddd; position: relative; overflow: hidden; }
         .card-img.loading::after {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
@@ -99,7 +109,13 @@
         .info-card h3 { margin: 0 0 10px 0; font-size: 1.1rem; font-weight: 800; }
         .info-card p { font-size: 0.85rem; line-height: 1.5; color: #444; margin: 0; }
 
-        footer { position: fixed; bottom: 15px; width: 100%; text-align: center; z-index: 100; font-size: 0.7rem; opacity: 0.4; pointer-events: none;}
+        .ai-credit {
+            margin-top: 60px; font-size: 0.75rem; color: rgba(255,255,255,0.6);
+            background: rgba(0,0,0,0.4); padding: 8px 20px; border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        footer { padding: 40px 0 20px; width: 100%; text-align: center; font-size: 0.75rem; opacity: 0.5; }
     </style>
 </head>
 <body class="creative-mode">
@@ -120,42 +136,48 @@
         <div class="header-shield">
             <h1 id="main-title">Jas | Creative Designer</h1>
             <h2 id="sub-title">Digital Art & Experiential Design</h2>
-            <button class="toggle-btn" onclick="toggleMode()">
-                Switch Persona
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <button class="toggle-btn" id="persona-btn" onclick="toggleMode()">
+                <span id="btn-text">Switch to Technical</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 3h5v5M4 21L21 4M4 21h5v-5"/>
                 </svg>
             </button>
         </div>
         
         <div id="project-list"></div>
-    </div>
 
-    <footer>Jennifer.Angela.Shum@gmail.com | © 2026</footer>
+        <div class="ai-credit">
+            Visuals crafted with <b>Nano Banana 2</b> • Architecture by <b>Gemini 3 Flash</b>
+        </div>
+        
+        <footer>Jennifer.Angela.Shum@gmail.com | © 2026</footer>
+    </div>
 
     <script>
         const modes = {
             creative: {
                 title: "Jas | Creative Designer",
                 subtitle: "Digital Art & Experiential Design",
+                btn: "Switch to Technical",
                 accent: "var(--art-gold)",
                 pColor: "rgba(255, 215, 0, 0.5)",
                 projects: [
                     { name: "Reddit Collectibles", img: "RedditAvatars.gif", desc: "Launched original avatar series; 2,400+ collectors; $75k+ revenue." },
-                    { name: "Chubby Cattle", img: "ChubbyGif.gif", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurants." },
-                    { name: "Freelance Solutions", img: "DesignFreelance.png", desc: "Visual branding and self-published children's books." },
+                    { name: "Chubby Cattle", img: "ChubbyGif.gif", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurants (Lunar New Year special art editions for 2024 and 2025)." },
+                    { name: "Freelance Solutions", img: "DesignFreelance.png", desc: "Visual branding and self-published children's books for various clients." },
                     { name: "Whimsical Storytelling", img: "KIKO_ART.png", desc: "Digital illustrations designed to tell immersive, playful stories." },
-                    { name: "Fanart & Illustration", img: "ELSA_JAS_ART.png", desc: "High-fidelity digital illustration on major entertainment IPs." },
+                    { name: "Fanart Illustration", img: "ELSA_JAS_ART.png", desc: "Procreate digital illustration shared with fans across social media - just for fun!" },
                     { name: "Times Square Feature", img: "TimesSquareBillboard.png", desc: "Digital art featured on NYC Times Square billboard (2025)." }
                 ]
             },
             engineering: {
                 title: "Jennifer Shum | PhD",
                 subtitle: "Mechanical Design & Robotics R&D",
+                btn: "Switch to Creative",
                 accent: "var(--eng-blue)",
                 pColor: "rgba(100, 160, 255, 0.4)",
                 projects: [
-                    { name: "Harvard Microrobotics", img: "Robot_Surfaces.png", desc: "Electroadhesive footpads & novel mechanisms for small-scale robots (PhD)." },
+                    { name: "Harvard Microrobotics", img: "Robot_Surfaces.png", desc: "Electroadhesive footpads & novel mechanisms for small-scale robots (PhD research)." },
                     { name: "NASA JPL and iRobot", img: "JPL.png", desc: "Mechanical fixtures for Perseverance rover testbed & consumer robotics R&D." },
                     { name: "3D Printing R&D", img: "Microrobot.png", desc: "FDM/SLA metallized sputter coated terrains and advanced fabrication." },
                     { name: "Avatar Arena", img: "AvatarArena.png", desc: "$1k Hackathon Win (Kiro x Reddit); 125+ playtesters in 24 hrs." },
@@ -171,6 +193,7 @@
             const data = modes[currentMode];
             document.getElementById('main-title').innerText = data.title;
             document.getElementById('sub-title').innerText = data.subtitle;
+            document.getElementById('btn-text').innerText = data.btn;
             
             const container = document.getElementById('project-list');
             container.innerHTML = data.projects.map((p, i) => `
@@ -197,9 +220,10 @@
         function toggleMode() {
             currentMode = (currentMode === 'creative') ? 'engineering' : 'creative';
             document.body.className = currentMode + "-mode";
-            setTimeout(render, 400);
+            setTimeout(render, 300);
         }
 
+        // Particle System
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
