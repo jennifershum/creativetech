@@ -7,154 +7,110 @@
     <style>
         :root {
             --eng-blue: #0047AB;
-            --art-matcha: #778664;
+            --art-gold: #D4AF37;
             --transition-speed: 1.2s;
         }
 
         body, html {
             margin: 0; padding: 0;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #111;
+            background-color: #000;
             color: white;
             overflow-x: hidden;
         }
 
         /* Particles Canvas */
-        #particle-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            z-index: 5;
-            pointer-events: none;
-        }
+        #particle-canvas { position: fixed; top: 0; left: 0; z-index: 5; pointer-events: none; }
 
-        /* Navigation Header */
+        /* Navigation */
         nav {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 20px;
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
+            position: fixed; top: 0; width: 100%; padding: 20px; z-index: 100;
+            display: flex; justify-content: center; gap: clamp(10px, 4vw, 30px);
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: 0.3s;
-            opacity: 0.8;
+            color: white; text-decoration: none; font-size: 0.75rem; font-weight: bold;
+            letter-spacing: 1.5px; text-transform: uppercase; transition: 0.3s; opacity: 0.6;
         }
 
-        nav a:hover { opacity: 1; color: var(--art-matcha); }
+        nav a:hover { opacity: 1; color: var(--art-gold); }
 
-        /* Background Layers with SWIPE */
+        /* Background Layers with Swipe */
         .bg-layer {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100vh;
-            background-size: cover;
-            background-position: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-size: cover; background-position: center;
             transition: clip-path var(--transition-speed) cubic-bezier(0.77, 0, 0.175, 1);
         }
 
-        #bg-engineering {
-            background-image: url('blueprint.png');
-            z-index: 1;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-        }
+        #bg-engineering { background-image: url('blueprint.png'); z-index: 1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+        #bg-creative { background-image: url('cafe.png'); z-index: 2; clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
+        
+        body.creative-mode #bg-creative { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
 
-        #bg-creative {
-            background-image: url('cafe.png');
-            z-index: 2;
-            clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-        }
-
-        body.creative-mode #bg-creative {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-        }
-
-        /* Content Overlay */
+        /* Content UI */
         .content-container {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            position: relative; z-index: 10; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 120px 20px; box-sizing: border-box;
+        }
+
+        .header-shield {
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(12px);
+            padding: 30px 50px;
+            border-radius: 24px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
             text-align: center;
-            padding: 80px 20px;
-            box-sizing: border-box;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin: 0; text-shadow: 2px 2px 20px rgba(0,0,0,0.8); }
-        h2 { font-size: 1.2rem; margin: 10px 0 40px; font-weight: 300; opacity: 0.9; }
+        h1 { font-size: clamp(1.8rem, 5vw, 3.2rem); margin: 0; letter-spacing: -1px; }
+        h2 { font-size: 1rem; margin: 10px 0 0; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; opacity: 0.8; }
 
-        #project-list {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            max-width: 1200px;
-        }
+        #project-list { display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; max-width: 1400px; }
 
+        /* Card Styling */
         .info-card {
-            background: rgba(255, 255, 255, 0.95);
-            color: #222;
-            border-radius: 12px;
-            width: 320px;
+            background: rgba(255, 255, 255, 0.98); color: #111;
+            border-radius: 16px; width: 310px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .info-card:hover { transform: translateY(-12px); }
+
+        /* Skeleton Shimmer */
+        .card-img { width: 100%; height: 170px; background-size: cover; background-position: center; }
+        .card-img.loading {
+            background: #eee;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            transition: 0.4s ease;
         }
-
-        .card-img {
-            width: 100%;
-            height: 160px;
-            background: #ddd;
-            background-size: cover;
-            background-position: center;
+        .card-img.loading::after {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            animation: shimmer 1.5s infinite;
         }
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-        .card-text { padding: 20px; text-align: left; }
-        .info-card h3 { margin: 0 0 10px 0; font-size: 1.1rem; }
-        .info-card p { font-size: 0.9rem; line-height: 1.4; color: #444; }
+        .card-text { padding: 22px; text-align: left; }
+        .info-card h3 { margin: 0 0 10px 0; font-size: 1.1rem; font-weight: 800; }
+        .info-card p { font-size: 0.85rem; line-height: 1.5; color: #444; margin: 0; }
 
-        /* Toggle Button & Arrow */
+        /* Toggle Button */
         .toggle-btn {
-            margin-top: 50px;
-            padding: 15px 40px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            border: 2px solid white;
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: 0.3s;
+            margin-top: 60px; padding: 18px 45px; font-size: 0.9rem; font-weight: 900;
+            cursor: pointer; border: 2px solid white; background: rgba(0,0,0,0.7);
+            color: white; border-radius: 60px; display: flex; align-items: center; gap: 15px; 
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        .toggle-btn svg {
-            width: 20px; height: 20px;
-            transition: transform 0.6s ease;
-        }
-
-        .toggle-btn:hover { background: white; color: black; }
+        .toggle-btn:hover { background: white; color: black; transform: scale(1.05); }
+        .toggle-btn svg { width: 20px; height: 20px; transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
         .toggle-btn:hover svg { transform: rotate(180deg); stroke: black; }
 
-        footer {
-            position: fixed; bottom: 20px; width: 100%; text-align: center;
-            z-index: 100; font-size: 0.8rem; opacity: 0.6; pointer-events: none;
-        }
+        footer { position: fixed; bottom: 15px; width: 100%; text-align: center; z-index: 100; font-size: 0.7rem; opacity: 0.4; }
     </style>
 </head>
 <body class="engineering-mode">
@@ -163,20 +119,27 @@
 
     <nav>
         <a href="https://drive.google.com/file/d/1FWShG_92thWwGZR368S00UzP3MY_5si-/view?usp=sharing" target="_blank">Resume</a>
+        <a href="http://www.jennifershum.com" target="_blank">Engineering</a>
         <a href="https://www.jascolors.com" target="_blank">Art Portfolio</a>
-        <a href="https://jennifershum.github.io/creativetech/" target="_blank">Games</a>
+        <a href="https://jasdevelop.wixsite.com/apps/games" target="_blank">Games</a>
     </nav>
 
     <div id="bg-engineering" class="bg-layer"></div>
     <div id="bg-creative" class="bg-layer"></div>
 
     <div class="content-container">
-        <h1 id="main-title">Jennifer Shum | PhD</h1>
-        <h2 id="sub-title">Mechanical Design & Robotics R&D</h2>
+        <div class="header-shield">
+            <h1 id="main-title">Jennifer Shum | PhD</h1>
+            <h2 id="sub-title">Mechanical Design & Robotics R&D</h2>
+        </div>
+        
         <div id="project-list"></div>
+
         <button class="toggle-btn" onclick="toggleMode()">
             Switch Persona
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 21L21 4M4 21h5v-5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 3h5v5M4 21L21 4M4 21h5v-5"/>
+            </svg>
         </button>
     </div>
 
@@ -187,23 +150,27 @@
             engineering: {
                 title: "Jennifer Shum | PhD",
                 subtitle: "Mechanical Design & Robotics R&D",
-				accent: "#D4AF37", // A classic Metallic Gold accent
-				particleColor: "rgba(255, 215, 0, 0.6)", // Golden Amber particles
+                accent: "var(--eng-blue)",
+                pColor: "rgba(100, 160, 255, 0.4)",
                 projects: [
-                    { name: "Harvard Microrobotics", img: "robot_thumb.jpg", desc: "Electroadhesive footpads and novel mechanisms for small-scale robots." },
-                    { name: "NASA JPL & iRobot", img: "nasa_thumb.jpg", desc: "Mechanical fixtures for Perseverance rover and consumer robotics R&D." },
-                    { name: "Avatar Arena & Apps", img: "arena_thumb.jpg", desc: "Award-winning interactive demo and Android games with 30k+ downloads." }
+                    { name: "Harvard Microrobotics", img: "Microrobot.jpg", desc: "Electroadhesive footpads & novel mechanisms for small-scale robots (PhD)." },
+                    { name: "JPL & NASA", img: "JPL.jpg", desc: "Mechanical fixtures for Perseverance rover testbed & UI/UX studies." },
+                    { name: "Avatar Arena", img: "AvatarArena.jpg", desc: "$1k Hackathon Win (Kiro x Reddit); 125+ playtesters in 24 hrs." },
+                    { name: "Ramen Clicker", img: "RamenClickerShopGame.jpg", desc: "Digital collectible shop game developed in Unity 2D." },
+                    { name: "Adopt-a-Blob", img: "adoptablob.png", desc: "Mobile game on Android with 30,000+ global installs." }
                 ]
             },
             creative: {
                 title: "Jas | Creative Designer",
                 subtitle: "Digital Art & Experiential Design",
-                accent: "#778664",
-                particleColor: "rgba(150, 200, 100, 0.5)",
+                accent: "var(--art-gold)",
+                pColor: "rgba(255, 215, 0, 0.5)",
                 projects: [
-                    { name: "Reddit Collectibles", img: "reddit_thumb.jpg", desc: "Launched original avatar series for 2,400+ collectors; $75k+ revenue." },
-                    { name: "Chubby Cattle & Web3", img: "cattle_thumb.jpg", desc: "Blockchain-integrated loyalty designs for 40+ restaurant locations." },
-                    { name: "Freelance Branding", img: "art_thumb.jpg", desc: "Visual solutions for NASA JPL and self-published children's books." }
+                    { name: "Reddit Collectibles", img: "RedditAvatars.gif", desc: "Launched original avatar series; 2,400+ collectors; $75k+ revenue." },
+                    { name: "Chubby Cattle", img: "ChubbyGif.gif", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurants." },
+                    { name: "Freelance Solutions", img: "DesignFreelance.jpg", desc: "Visual branding and self-published children's books." },
+                    { name: "Fanart & Illustration", img: "ELSA_JAS_ART.jpg", desc: "High-fidelity digital illustration on major entertainment IPs." },
+                    { name: "Times Square Feature", img: "TimesSquareBillboard.jpg", desc: "Digital art featured on NYC Times Square billboard (2025)." }
                 ]
             }
         };
@@ -214,62 +181,64 @@
             const data = modes[currentMode];
             document.getElementById('main-title').innerText = data.title;
             document.getElementById('sub-title').innerText = data.subtitle;
-            document.getElementById('project-list').innerHTML = data.projects.map(p => `
-                <div class="info-card" style="border-bottom: 6px solid ${data.accent}">
-                    <div class="card-img" style="background-image: url('${p.img}')"></div>
+            
+            const container = document.getElementById('project-list');
+            container.innerHTML = data.projects.map((p, i) => `
+                <div class="info-card" style="border-top: 8px solid ${data.accent}">
+                    <div id="img-${currentMode}-${i}" class="card-img loading"></div>
                     <div class="card-text">
                         <h3>${p.name}</h3>
                         <p>${p.desc}</p>
                     </div>
                 </div>
             `).join('');
+
+            // Lazy load images with shimmer removal
+            data.projects.forEach((p, i) => {
+                const imgDiv = document.getElementById(`img-${currentMode}-${i}`);
+                const tempImg = new Image();
+                tempImg.src = p.img;
+                tempImg.onload = () => {
+                    imgDiv.style.backgroundImage = `url('${p.img}')`;
+                    imgDiv.classList.remove('loading');
+                };
+            });
         }
 
         function toggleMode() {
             currentMode = (currentMode === 'engineering') ? 'creative' : 'engineering';
             document.body.className = currentMode + "-mode";
-            setTimeout(render, 400);
+            setTimeout(render, 400); // Wait for background swipe to start
         }
 
-        // --- Particle System ---
+        // Particle System Logic
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        
         class Particle {
-            constructor() {
+            constructor() { this.init(); }
+            init() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.speedY = Math.random() * 1 - 0.5;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.speedY = Math.random() * 0.6 - 0.3;
             }
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.x = Math.random() * canvas.width;
+                if (this.y > canvas.height || this.y < 0) this.y = Math.random() * canvas.height;
             }
             draw() {
-                ctx.fillStyle = modes[currentMode].particleColor;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.fillStyle = modes[currentMode].pColor;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < 80; i++) particles.push(new Particle());
-        }
-
+        function initP() { for (let i = 0; i < 90; i++) particles.push(new Particle()); }
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => { p.update(); p.draw(); });
@@ -277,10 +246,7 @@
         }
 
         window.addEventListener('resize', resize);
-        resize();
-        initParticles();
-        animate();
-        window.onload = render;
+        resize(); initP(); animate(); window.onload = render;
     </script>
 </body>
 </html>
