@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blueprints & Brushstrokes</title>
+    <style>
+        :root {
+            --eng-blue: #0047AB;
+            --art-matcha: #778664;
+            --transition-speed: 0.8s;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Background Layers */
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background-size: cover;
+            background-position: center;
+            transition: opacity var(--transition-speed) ease-in-out;
+        }
+
+        #bg-engineering {
+            background-image: url('blueprint.png'); /* REPLACE WITH YOUR FILENAME */
+            z-index: 1;
+        }
+
+        #bg-creative {
+            background-image: url('cafe.png'); /* REPLACE WITH YOUR FILENAME */
+            opacity: 0;
+            z-index: 2;
+        }
+
+        /* Content Overlay */
+        .content-container {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .toggle-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            border-radius: 50px;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .toggle-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            width: 300px;
+            text-shadow: none;
+            text-align: center;
+        }
+
+        /* State Classes */
+        body.creative-mode #bg-creative { opacity: 1; }
+        body.creative-mode .info-card { border-top: 5px solid var(--art-matcha); }
+        body.engineering-mode .info-card { border-top: 5px solid var(--eng-blue); }
+    </style>
+</head>
+<body class="engineering-mode">
+
+    <div id="bg-engineering" class="bg-layer"></div>
+    <div id="bg-creative" class="bg-layer"></div>
+
+    <div class="content-container">
+        <h1 id="main-title">Robotics & Engineering</h1>
+        
+        <div class="info-card">
+            <h3 id="card-title">Featured Project</h3>
+            <p id="card-desc">Designing modular robotic limbs with integrated sensors.</p>
+        </div>
+
+        <button class="toggle-btn" onclick="toggleMode()">Switch Persona</button>
+    </div>
+
+    <script>
+const modes = {
+    engineering: {
+        title: "Jennifer Shum | PhD",
+        subtitle: "Mechanical Design & Robotics R&D",
+        projects: [
+            { name: "Harvard Microrobotics", desc: "Developing electroadhesive footpads and novel compliant mechanisms for small-scale robots." },
+            { name: "Avatar Arena", desc: "Award-winning interactive game experience prototype integrating Reddit avatars via Kiro AI." },
+            { name: "NASA JPL & iRobot", desc: "Mechanical fixtures for Mars 2020 and UI/UX studies for next-gen consumer robotics." }
+        ],
+        accent: "#0047AB"
+    },
+    creative: {
+        title: "Jas | Creative Designer",
+        subtitle: "Digital Art & Experiential Design",
+        projects: [
+            { name: "Reddit Collectibles", desc: "Launched avatar series reaching 2,400+ collectors with $75k+ in sales revenue." },
+            { name: "Chubby Cattle", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurant locations." },
+            { name: "Adopt-a-Blob", desc: "End-to-end design and launch of an Android game with 30,000+ downloads." }
+        ],
+        accent: "#778664"
+    }
+};
+
+let currentMode = 'engineering';
+
+function toggleMode() {
+    const body = document.body;
+    currentMode = (currentMode === 'engineering') ? 'creative' : 'engineering';
+    
+    // Update Theme Class
+    body.className = currentMode + "-mode";
+    
+    // Update Text Content
+    const data = modes[currentMode];
+    document.getElementById('main-title').innerText = data.title;
+    document.getElementById('sub-title').innerText = data.subtitle;
+    
+    // Update Project Cards (Dynamic HTML generation)
+    const container = document.getElementById('project-list');
+    container.innerHTML = data.projects.map(p => `
+        <div class="info-card" style="border-top: 5px solid ${data.accent}">
+            <h3>${p.name}</h3>
+            <p>${p.desc}</p>
+        </div>
+    `).join('');
+}
+    </script>
+</body>
+</html>
