@@ -3,37 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blueprints & Brushstrokes</title>
+    <title>Jennifer Shum | Blueprints & Brushstrokes</title>
     <style>
+        /* CSS STYLES */
         :root {
             --eng-blue: #0047AB;
             --art-matcha: #778664;
-            --transition-speed: 0.8s;
+            --transition-speed: 1.2s;
         }
 
         body, html {
             margin: 0; padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            background-color: #f0f0f0;
         }
 
         /* Background Layers */
         .bg-layer {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100vh;
             background-size: cover;
             background-position: center;
-            transition: opacity var(--transition-speed) ease-in-out;
+            transition: opacity var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Use your actual filenames here */
         #bg-engineering {
-            background-image: url('blueprint.png'); /* REPLACE WITH YOUR FILENAME */
+            background-image: url('blueprint.png');
             z-index: 1;
         }
 
         #bg-creative {
-            background-image: url('cafe.png'); /* REPLACE WITH YOUR FILENAME */
+            background-image: url('cafe.png');
             opacity: 0;
             z-index: 2;
         }
@@ -42,112 +45,80 @@
         .content-container {
             position: relative;
             z-index: 10;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
-            text-shadow: 0px 2px 10px rgba(0,0,0,0.5);
-            background: rgba(0,0,0,0.2);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.15);
+            transition: background var(--transition-speed);
+            padding: 20px;
         }
 
+        h1 { font-size: 3rem; margin-bottom: 0.5rem; color: white; text-shadow: 2px 2px 15px rgba(0,0,0,0.5); }
+        h2 { font-size: 1.5rem; margin-bottom: 2rem; color: rgba(255,255,255,0.9); font-weight: 300; }
+
+        /* Project Cards */
+        #project-list {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1000px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 25px;
+            border-radius: 12px;
+            width: 280px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            text-align: left;
+        }
+
+        .info-card:hover { transform: translateY(-5px); }
+        .info-card h3 { margin-top: 0; font-size: 1.2rem; }
+        .info-card p { font-size: 0.9rem; line-height: 1.4; color: #555; }
+
+        /* Toggle Button */
         .toggle-btn {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            margin-top: 40px;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
-            border: 2px solid white;
+            border: 3px solid white;
             background: transparent;
             color: white;
             border-radius: 50px;
-            transition: 0.3s;
-            margin-top: 20px;
+            transition: all 0.3s ease;
         }
 
         .toggle-btn:hover {
             background: white;
-            color: black;
-        }
-
-        .info-card {
-            background: rgba(255, 255, 255, 0.9);
             color: #333;
-            padding: 20px;
-            border-radius: 15px;
-            width: 300px;
-            text-shadow: none;
-            text-align: center;
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
         }
 
         /* State Classes */
         body.creative-mode #bg-creative { opacity: 1; }
-        body.creative-mode .info-card { border-top: 5px solid var(--art-matcha); }
-        body.engineering-mode .info-card { border-top: 5px solid var(--eng-blue); }
+        body.creative-mode .content-container { background: rgba(0,0,0,0.05); }
+
+        footer {
+            position: fixed;
+            bottom: 20px;
+            color: white;
+            z-index: 100;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body class="engineering-mode">
 
-    <div id="bg-engineering" class="bg-layer"></div>
-    <div id="bg-creative" class="bg-layer"></div>
-
-    <div class="content-container">
-        <h1 id="main-title">Robotics & Engineering</h1>
-        
-        <div class="info-card">
-            <h3 id="card-title">Featured Project</h3>
-            <p id="card-desc">Designing modular robotic limbs with integrated sensors.</p>
-        </div>
-
-        <button class="toggle-btn" onclick="toggleMode()">Switch Persona</button>
-    </div>
-
-    <script>
-const modes = {
-    engineering: {
-        title: "Jennifer Shum | PhD",
-        subtitle: "Mechanical Design & Robotics R&D",
-        projects: [
-            { name: "Harvard Microrobotics", desc: "Developing electroadhesive footpads and novel compliant mechanisms for small-scale robots." },
-            { name: "Avatar Arena", desc: "Award-winning interactive game experience prototype integrating Reddit avatars via Kiro AI." },
-            { name: "NASA JPL & iRobot", desc: "Mechanical fixtures for Mars 2020 and UI/UX studies for next-gen consumer robotics." }
-        ],
-        accent: "#0047AB"
-    },
-    creative: {
-        title: "Jas | Creative Designer",
-        subtitle: "Digital Art & Experiential Design",
-        projects: [
-            { name: "Reddit Collectibles", desc: "Launched avatar series reaching 2,400+ collectors with $75k+ in sales revenue." },
-            { name: "Chubby Cattle", desc: "Blockchain-integrated loyalty pass designs for 40+ restaurant locations." },
-            { name: "Adopt-a-Blob", desc: "End-to-end design and launch of an Android game with 30,000+ downloads." }
-        ],
-        accent: "#778664"
-    }
-};
-
-let currentMode = 'engineering';
-
-function toggleMode() {
-    const body = document.body;
-    currentMode = (currentMode === 'engineering') ? 'creative' : 'engineering';
-    
-    // Update Theme Class
-    body.className = currentMode + "-mode";
-    
-    // Update Text Content
-    const data = modes[currentMode];
-    document.getElementById('main-title').innerText = data.title;
-    document.getElementById('sub-title').innerText = data.subtitle;
-    
-    // Update Project Cards (Dynamic HTML generation)
-    const container = document.getElementById('project-list');
-    container.innerHTML = data.projects.map(p => `
-        <div class="info-card" style="border-top: 5px solid ${data.accent}">
-            <h3>${p.name}</h3>
-            <p>${p.desc}</p>
-        </div>
-    `).join('');
-}
-    </script>
-</body>
-</html>
+    <div id="bg-
